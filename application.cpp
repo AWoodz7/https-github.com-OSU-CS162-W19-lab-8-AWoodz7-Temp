@@ -1,16 +1,45 @@
 #include "matrix.hpp"
 #include <iostream>
 
+template<class T>
+void printMatrix(Matrix<T>& matrix) {
+  for (int k = 0; k < matrix.rows(); k++) {
+    for (int j = 0; j < matrix.cols(); j++) {
+      std::cout << matrix.at(k,j) << "\t";
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::endl;
+}
+
+template<class T>
+void fillMatrix(Matrix<T>& matrix, T start) {
+  for (int k = 0; k < matrix.rows(); k++) {
+    for (int j = 0; j < matrix.cols(); j++) {
+      matrix.at(k,j) = start;
+    }
+  }
+}
 
 int main() {
-  Matrix<int> myIntMatrix(3,3);
-  Matrix<float> myFloatMatrix(2,5);
+  Matrix<int> A(3,3);
+  Matrix<int> B(3,3);
 
+  fillMatrix(A,2);
+  fillMatrix(B,6);
 
+  //std::cout << "integer matrix" << std::endl;
+  printMatrix(A);
+  //std::cout << "float matrix" << std::endl;
+  printMatrix(B);
 
-  std::cout << "int matrix: " << myIntMatrix.at(2,2) << std::endl;
+  try {
+    A.add(B);
+  } catch(size_mismatch& myException) {
+    std::cerr << myException.what() << std::endl;
+    return 0;
+  }
 
-
-  std::cout << "float matrix: " << myFloatMatrix.at(2,2) << std::endl;
+  printMatrix(A);
 
 }
